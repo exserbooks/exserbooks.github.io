@@ -12,6 +12,10 @@
     <nav>
         <div class="nav-container">
             <span class="logo">EXSER BOOKS</span>
+            <div class="nav-links">
+                <a href="about.html">About Us</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
             <div class="nav-right">
                 <span id="user-info"></span>
                 <button id="login-btn">Admin Login</button>
@@ -32,15 +36,13 @@
             <div class="admin-card">
                 <h2>Register New E-book</h2>
                 <input type="text" id="book-title" placeholder="Book Title">
-                <input type="text" id="book-category" placeholder="Category (e.g., Tech, Fiction)">
-                <input type="text" id="book-link" placeholder="PDF Link (Google Drive, Dropbox, etc.)">
-                
+                <input type="text" id="book-category" placeholder="Category">
+                <input type="text" id="book-link" placeholder="PDF Link (Google Drive)">
                 <button class="btn-upload" onclick="saveBook()">Publish Book</button>
             </div>
         </section>
 
-        <div id="books-grid" class="books-grid">
-            </div>
+        <div id="books-grid" class="books-grid"></div>
     </main>
 
     <footer>
