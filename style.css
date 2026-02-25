@@ -7,30 +7,66 @@
     --star-gold: #ffcc00;
 }
 
-body { font-family: 'Inter', sans-serif; margin: 0; background-color: var(--white); color: var(--text-dark); }
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background-color: var(--white);
+    color: var(--text-dark);
+}
 
 /* Navigation */
 nav { background: var(--primary-blue); color: white; padding: 15px 0; }
 .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
-.logo { font-weight: 900; font-size: 1.4rem; }
-.nav-links a { color: white; text-decoration: none; margin-right: 20px; font-size: 0.9rem; opacity: 0.8; }
+.logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -1px; }
+
+.nav-links a { color: white; text-decoration: none; margin-right: 20px; font-size: 0.9rem; opacity: 0.8; transition: 0.3s; }
 .nav-links a:hover { opacity: 1; text-decoration: underline; }
 
-#login-btn { background: transparent; border: 1px solid white; color: white; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+#login-btn { 
+    background: transparent; border: 1px solid white; color: white; 
+    padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;
+}
 
 /* Header */
-header { background: var(--primary-blue); color: white; text-align: center; padding: 60px 20px; border-bottom: 8px solid var(--light-blue); }
-header h1 { font-size: 3rem; margin: 0; font-weight: 900; }
-.search-box { margin-top: 25px; }
-.search-box input { width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 50px; border: none; font-size: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+header { 
+    background: var(--primary-blue); color: white; text-align: center; 
+    padding: 70px 20px; border-bottom: 8px solid var(--light-blue);
+}
+header h1 { font-size: 3.2rem; margin: 0; font-weight: 900; }
 
-/* Grid & Cards */
+.search-box { margin-top: 25px; }
+.search-box input {
+    width: 100%; max-width: 500px; padding: 18px 25px; 
+    border-radius: 50px; border: none; font-size: 1rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
 .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-.books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+
+/* Admin Panel */
+.admin-card { 
+    background: var(--light-blue); padding: 30px; border-radius: 15px; 
+    margin-bottom: 50px; border: 2px solid var(--primary-blue);
+}
+.admin-card input { 
+    width: 100%; padding: 12px; margin-bottom: 15px; 
+    border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;
+}
+.btn-upload { 
+    width: 100%; background: var(--primary-blue); color: white; 
+    border: none; padding: 15px; font-weight: bold; border-radius: 8px; cursor: pointer;
+}
+
+/* Book Grid & Cards */
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
 
 .book-card {
     background: var(--white);
-    padding: 30px 20px;
+    padding: 35px 20px;
     border-radius: 15px;
     text-align: center;
     border: 2px solid var(--light-blue);
@@ -39,24 +75,33 @@ header h1 { font-size: 3rem; margin: 0; font-weight: 900; }
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    min-height: 220px;
 }
-.book-card:hover { border-color: var(--primary-blue); transform: translateY(-5px); }
 
-.book-title-link { text-decoration: none; color: inherit; cursor: pointer; }
-.book-card h3 { margin: 0 0 5px 0; font-size: 1.3rem; color: var(--primary-blue); }
-.book-card p { font-size: 0.8rem; font-weight: 800; color: #666; text-transform: uppercase; margin-bottom: 15px; }
+.book-card:hover { 
+    border-color: var(--primary-blue);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
 
-/* Rating System */
-.rating-container { display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
-.stars { display: flex; gap: 3px; cursor: pointer; }
-.star { font-size: 1.5rem; color: #ccc; transition: 0.2s; }
+.book-info-area { cursor: pointer; }
+.book-card h3 { margin: 0 0 10px 0; font-size: 1.4rem; color: var(--primary-blue); }
+.book-card p { font-size: 0.85rem; text-transform: uppercase; font-weight: 800; color: #666; }
+
+/* Ratings */
+.rating-section { border-top: 1px solid #eee; margin-top: 15px; padding-top: 15px; }
+.stars { display: flex; justify-content: center; gap: 5px; margin-bottom: 5px; }
+.star { font-size: 1.4rem; color: #ddd; cursor: pointer; transition: 0.2s; }
 .star.active { color: var(--star-gold); }
-.avg-text { font-size: 0.85rem; font-weight: bold; color: #555; }
+.star:hover { transform: scale(1.2); }
+.avg-label { font-size: 0.8rem; font-weight: bold; color: #888; }
 
-/* Admin Options */
-.admin-card { background: var(--light-blue); padding: 30px; border-radius: 15px; margin-bottom: 50px; border: 2px solid var(--primary-blue); }
-.admin-card input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; }
-.btn-upload { width: 100%; background: var(--primary-blue); color: white; border: none; padding: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; }
-.btn-delete { position: absolute; top: 10px; right: 10px; background: var(--danger); color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.6rem; cursor: pointer; z-index: 10; }
+/* Admin Delete Button */
+.btn-delete {
+    position: absolute; top: 10px; right: 10px;
+    background: var(--danger); color: white; border: none;
+    padding: 5px 10px; border-radius: 4px; font-size: 0.6rem; 
+    font-weight: bold; cursor: pointer; z-index: 10;
+}
 
-footer { text-align: center; padding: 40px; color: var(--primary-blue); font-weight: bold; opacity: 0.5; }
+footer { text-align: center; padding: 60px; color: var(--primary-blue); font-weight: bold; opacity: 0.5; }
