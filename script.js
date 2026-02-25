@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getFirestore, collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// --- PASTE YOUR CONFIG FROM FIREBASE PROJECT SETTINGS HERE ---
+// --- SUBSTITUA PELAS SUAS CHAVES DO FIREBASE ---
 const firebaseConfig = {
   apiKey: "AIzaSyC5If0e-BfyC9aFENp_UjGmWl50FRQqPm8",
   authDomain: "exser-books.firebaseapp.com",
@@ -21,57 +21,80 @@ const ADMIN_EMAIL = "campameurer@gmail.com";
 let allBooks = [];
 let isAdmin = false;
 
-// AUTH OBSERVER
+// --- SISTEMA DE LOGIN E CONTROLO DE ADMIN ---
 onAuthStateChanged(auth, (user) => {
     isAdmin = user && user.email === ADMIN_EMAIL;
     document.getElementById('admin-panel').style.display = isAdmin ? 'block' : 'none';
+    
     const loginBtn = document.getElementById('login-btn');
-    loginBtn.innerText = user ? "Logout" : "Admin Login";
-    loginBtn.onclick = user ? () => signOut(auth).then(() => location.reload()) : () => signInWithPopup(auth, provider);
+    const userInfo = document.getElementById('user-info');
+
+    if (user) {
+        loginBtn.innerText = "Logout";
+        loginBtn.onclick = () => signOut(auth).then(() => location.reload());
+        if (isAdmin) userInfo.innerText = user.email;
+    } else {
+        loginBtn.innerText = "Login"; // Botão simplificado conforme pedido
+        loginBtn.onclick = () => signInWithPopup(auth, provider);
+        userInfo.innerText = "";
+    }
     loadBooks();
 });
 
-// SAVE NEW BOOK
+// --- SALVAR LIVRO ---
 window.saveBook = async () => {
     const title = document.getElementById('book-title').value;
     const category = document.getElementById('book-category').value;
     const link = document.getElementById('book-link').value;
 
-    if (!title || !link) return alert("Please fill title and link!");
+    if (!title || !link) return alert("Title and Link are required!");
 
     try {
         await addDoc(collection(db, "books"), {
-            title, category: category || "General", ebookUrl: link,
-            ratings: [], createdAt: new Date()
+            title,
+            category: category || "General",
+            ebookUrl: link,
+            ratings: [],
+            createdAt: new Date()
         });
+        alert("Book published!");
         location.reload();
-    } catch (e) { alert(e.message); }
+    } catch (e) {
+        alert("Error: " + e.message);
+    }
 };
 
-// RATE BOOK FUNCTION
+// --- SISTEMA DE AVALIAÇÃO (ESTRELAS) ---
 window.rateBook = async (bookId, score) => {
-    const bookRef = doc(db, "books", bookId);
-    await updateDoc(bookRef, { ratings: arrayUnion(score) });
-    alert("Rating saved! Thank you.");
-    loadBooks();
+    try {
+        const bookRef = doc(db, "books", bookId);
+        await updateDoc(bookRef, {
+            ratings: arrayUnion(score)
+        });
+        alert("Thanks for your rating!");
+        loadBooks(); // Recarrega para atualizar a média
+    } catch (e) {
+        alert("Error saving rating.");
+    }
 };
 
-// DELETE BOOK
+// --- APAGAR LIVRO ---
 window.deleteBook = async (e, id) => {
-    e.stopPropagation();
-    if (confirm("Delete this book permanently?")) {
+    e.stopPropagation(); // Não deixa abrir o link ao clicar em apagar
+    if (confirm("Permanently delete this book?")) {
         await deleteDoc(doc(db, "books", id));
         loadBooks();
     }
 };
 
-// FETCH BOOKS
+// --- CARREGAR LIVROS DO BANCO DE DADOS ---
 async function loadBooks() {
     const q = query(collection(db, "books"), orderBy("createdAt", "desc"));
     const snap = await getDocs(q);
     const grid = document.getElementById('books-grid');
     grid.innerHTML = "";
     allBooks = [];
+
     snap.forEach(docSnap => {
         const book = docSnap.data();
         const id = docSnap.id;
@@ -80,7 +103,7 @@ async function loadBooks() {
     });
 }
 
-// RENDER INDIVIDUAL CARD
+// --- DESENHAR O CARD DO LIVRO ---
 function renderBook(book, id) {
     const ratings = book.ratings || [];
     const avg = ratings.length > 0 ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1) : "0.0";
@@ -106,11 +129,12 @@ function renderBook(book, id) {
     `;
 }
 
-// SEARCH
+// --- FILTRO DE PESQUISA ---
 window.filterBooks = () => {
     const term = document.getElementById('search-input').value.toLowerCase();
     const grid = document.getElementById('books-grid');
     grid.innerHTML = "";
+    
     allBooks.forEach(book => {
         if (book.title.toLowerCase().includes(term) || book.category.toLowerCase().includes(term)) {
             renderBook(book, book.id);
