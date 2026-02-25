@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exser Books | Digital Library</title>
+    
+    <link rel="icon" type="image/jpeg" href="bf5d201a-5fca-4e7b-85f3-1433d3d95e9f.jpg">
+    
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
@@ -12,10 +15,6 @@
     <nav>
         <div class="nav-container">
             <span class="logo">EXSER BOOKS</span>
-            <div class="nav-links">
-                <a href="about.html">About Us</a>
-                <a href="privacy.html">Privacy Policy</a>
-            </div>
             <div class="nav-right">
                 <span id="user-info"></span>
                 <button id="login-btn">Login</button>
@@ -38,17 +37,21 @@
                 <input type="text" id="book-title" placeholder="Book Title">
                 <input type="text" id="book-category" placeholder="Category (e.g., Tech, History)">
                 <input type="text" id="book-link" placeholder="PDF Link (Google Drive, Dropbox, etc)">
-                
                 <button class="btn-upload" onclick="saveBook()">Publish Book</button>
             </div>
         </section>
 
-        <div id="books-grid" class="books-grid">
-            </div>
+        <div id="books-grid" class="books-grid"></div>
     </main>
 
     <footer>
-        <p>Exser Books © 2026 | Free Culture</p>
+        <div class="footer-content">
+            <p>Exser Books © 2026 | Free Culture</p>
+            <div class="footer-links">
+                <a href="about.html">About Us</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+        </div>
     </footer>
 
     <script type="module" src="script.js"></script>
