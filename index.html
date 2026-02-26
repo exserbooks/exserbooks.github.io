@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exser Books</title> <link rel="icon" type="image/jpeg" href="bf5d201a-5fca-4e7b-85f3-1433d3d95e9f.jpg">
+    <title>Exser Books</title>
+    
+    <link rel="icon" type="image/jpeg" href="bf5d201a-5fca-4e7b-85f3-1433d3d95e9f.jpg">
+    
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
@@ -22,17 +25,23 @@
     <header>
         <h1>Exser Books</h1>
         <p>Free knowledge for everyone, everywhere.</p>
-        <div class="search-box">
-            <input type="text" id="search-input" placeholder="What's in your Mind?" onkeyup="filterBooks()">
-        </div>
         
-        <div class="category-tags">
-            <button onclick="setSearch('Mind-blowing')">Mind-blowing</button>
-            <button onclick="setSearch('Perfect for a rainy day')">Perfect for a rainy day</button>
-            <button onclick="setSearch('Quick reads with coffee')">Quick reads with coffee</button>
-            <button onclick="setSearch('Mini fiction stories')">Mini fiction stories</button>
-            <button onclick="setSearch('Novels')">Novels</button>
-            <button onclick="setSearch('')" style="opacity: 0.6;">All</button>
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="search-input" 
+                       placeholder="What's in your Mind?" 
+                       onkeyup="filterBooks()" 
+                       onclick="toggleCategories(true)">
+            </div>
+            
+            <div id="category-menu" class="category-dropdown">
+                <button onclick="setSearch('Mind-blowing')">Mind-blowing</button>
+                <button onclick="setSearch('Perfect for a rainy day')">Perfect for a rainy day</button>
+                <button onclick="setSearch('Quick reads with coffee')">Quick reads with coffee</button>
+                <button onclick="setSearch('Mini fiction stories')">Mini fiction stories</button>
+                <button onclick="setSearch('Novels')">Novels</button>
+                <button onclick="setSearch('')" class="clear-btn">Show All</button>
+            </div>
         </div>
     </header>
 
