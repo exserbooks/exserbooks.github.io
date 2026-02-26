@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exser Books | Digital Library</title>
-    
-    <link rel="icon" type="image/jpeg" href="bf5d201a-5fca-4e7b-85f3-1433d3d95e9f.jpg">
-    
-    <link rel="stylesheet" href="./style.css">
-    
+    <title>Exser Books</title> <link rel="icon" type="image/jpeg" href="bf5d201a-5fca-4e7b-85f3-1433d3d95e9f.jpg">
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -27,7 +23,16 @@
         <h1>Exser Books</h1>
         <p>Free knowledge for everyone, everywhere.</p>
         <div class="search-box">
-            <input type="text" id="search-input" placeholder="Search by title or category..." onkeyup="filterBooks()">
+            <input type="text" id="search-input" placeholder="What's in your Mind?" onkeyup="filterBooks()">
+        </div>
+        
+        <div class="category-tags">
+            <button onclick="setSearch('Mind-blowing')">Mind-blowing</button>
+            <button onclick="setSearch('Perfect for a rainy day')">Perfect for a rainy day</button>
+            <button onclick="setSearch('Quick reads with coffee')">Quick reads with coffee</button>
+            <button onclick="setSearch('Mini fiction stories')">Mini fiction stories</button>
+            <button onclick="setSearch('Novels')">Novels</button>
+            <button onclick="setSearch('')" style="opacity: 0.6;">All</button>
         </div>
     </header>
 
@@ -36,8 +41,17 @@
             <div class="admin-card">
                 <h2>Register New E-book</h2>
                 <input type="text" id="book-title" placeholder="Book Title">
-                <input type="text" id="book-category" placeholder="Category">
-                <input type="text" id="book-link" placeholder="PDF Link">
+                
+                <select id="book-category">
+                    <option value="" disabled selected>Select a Category</option>
+                    <option value="Mind-blowing">Mind-blowing</option>
+                    <option value="Perfect for a rainy day">Perfect for a rainy day</option>
+                    <option value="Quick reads with coffee">Quick reads with coffee</option>
+                    <option value="Mini fiction stories">Mini fiction stories</option>
+                    <option value="Novels">Novels</option>
+                </select>
+
+                <input type="text" id="book-link" placeholder="PDF Link (Google Drive, etc)">
                 <button class="btn-upload" onclick="saveBook()">Publish Book</button>
             </div>
         </section>
@@ -49,8 +63,8 @@
         <div class="footer-content">
             <p>Exser Books © 2026 | Free Culture</p>
             <div class="footer-links">
-                <a href="about.html">About Us</a>
-                <a href="privacy.html">Privacy Policy</a>
+                <a href="about.html" target="_blank">About Us</a>
+                <a href="privacy.html" target="_blank">Privacy Policy</a>
             </div>
         </div>
     </footer>
