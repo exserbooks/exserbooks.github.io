@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getFirestore, collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+// --- CONFIGURAÇÃO FIREBASE (Substitua pelos seus dados) ---
 const firebaseConfig = {
   apiKey: "AIzaSyC5If0e-BfyC9aFENp_UjGmWl50FRQqPm8",
   authDomain: "exser-books.firebaseapp.com",
@@ -20,6 +21,7 @@ const ADMIN_EMAIL = "campameurer@gmail.com";
 let allBooks = [];
 let isAdmin = false;
 
+// --- LOGIN & ADMIN ---
 onAuthStateChanged(auth, (user) => {
     isAdmin = user && user.email === ADMIN_EMAIL;
     document.getElementById('admin-panel').style.display = isAdmin ? 'block' : 'none';
@@ -29,16 +31,32 @@ onAuthStateChanged(auth, (user) => {
     loadBooks();
 });
 
+// --- MENU DE CATEGORIAS ---
+window.toggleCategories = (show) => {
+    const menu = document.getElementById('category-menu');
+    menu.style.display = show ? 'block' : 'none';
+};
+
+window.setSearch = (term) => {
+    document.getElementById('search-input').value = term;
+    toggleCategories(false);
+    filterBooks();
+};
+
+document.addEventListener('click', (e) => {
+    const container = document.querySelector('.search-container');
+    if (container && !container.contains(e.target)) {
+        toggleCategories(false);
+    }
+});
+
+// --- LIVROS ---
 window.saveBook = async () => {
     const title = document.getElementById('book-title').value;
     const category = document.getElementById('book-category').value;
     const link = document.getElementById('book-link').value;
-
     if (!title || !category || !link) return alert("All fields are required!");
-
-    await addDoc(collection(db, "books"), {
-        title, category, ebookUrl: link, ratings: [], createdAt: new Date()
-    });
+    await addDoc(collection(db, "books"), { title, category, ebookUrl: link, ratings: [], createdAt: new Date() });
     location.reload();
 };
 
@@ -75,7 +93,6 @@ function renderBook(book, id) {
     const ratings = book.ratings || [];
     const avg = ratings.length > 0 ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1) : "0.0";
     const grid = document.getElementById('books-grid');
-    
     grid.innerHTML += `
         <div class="book-card">
             ${isAdmin ? `<button class="btn-delete" onclick="deleteBook(event, '${id}')">DELETE</button>` : ''}
@@ -86,28 +103,19 @@ function renderBook(book, id) {
             <div class="rating-section">
                 <div class="stars">
                     ${[1, 2, 3, 4, 5].map(num => `
-                        <span class="star ${num <= Math.round(avg) ? 'active' : ''}" 
-                              onclick="rateBook('${id}', ${num})">★</span>
+                        <span class="star ${num <= Math.round(avg) ? 'active' : ''}" onclick="rateBook('${id}', ${num})">★</span>
                     `).join('')}
                 </div>
                 <span class="avg-label">${avg} (${ratings.length} votes)</span>
             </div>
-        </div>
-    `;
+        </div>`;
 }
-
-window.setSearch = (term) => {
-    document.getElementById('search-input').value = term;
-    filterBooks();
-};
 
 window.filterBooks = () => {
     const term = document.getElementById('search-input').value.toLowerCase();
     const grid = document.getElementById('books-grid');
     grid.innerHTML = "";
     allBooks.forEach(book => {
-        if (book.title.toLowerCase().includes(term) || book.category.toLowerCase().includes(term)) {
-            renderBook(book, book.id);
-        }
+        if (book.title.toLowerCase().includes(term) || book.category.toLowerCase().includes(term)) renderBook(book, book.id);
     });
 };
